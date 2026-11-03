@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://d3m7p9x2w1k4e"]
+
+[ext_resource type="Script" path="res://examples/02_physics_sandbox/physics_sandbox.gd" id="1_sandbox"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_horiz"]
+size = Vector2(1920, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vert"]
+size = Vector2(40, 1080)
+
+[node name="SandboxGame" type="Node2D"]
+script = ExtResource("1_sandbox")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.08, 0.09, 0.12, 1)
+
+[node name="Title" type="Label" parent="."]
+offset_left = 60.0
+offset_top = 40.0
+offset_right = 800.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 32
+text = "PHYSICS SANDBOX (Touch/Laser to push objects)"
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="Floor" type="CollisionShape2D" parent="Walls"]
+position = Vector2(960, 1060)
+shape = SubResource("RectangleShape2D_horiz")
+
+[node name="Ceiling" type="CollisionShape2D" parent="Walls"]
+position = Vector2(960, 20)
+shape = SubResource("RectangleShape2D_horiz")
+
+[node name="LeftWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(20, 540)
+shape = SubResource("RectangleShape2D_vert")
+
+[node name="RightWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1900, 540)
+shape = SubResource("RectangleShape2D_vert")

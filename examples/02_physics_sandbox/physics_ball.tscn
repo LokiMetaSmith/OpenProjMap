@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6v2n7x8p1m9q"]
+
+[ext_resource type="Script" path="res://examples/02_physics_sandbox/physics_ball.gd" id="1_ball"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_bouncy"]
+bounce = 0.85
+friction = 0.1
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ball"]
+radius = 30.0
+
+[node name="PhysicsBall" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_bouncy")
+gravity_scale = 1.0
+linear_damp = 0.5
+script = ExtResource("1_ball")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ball")

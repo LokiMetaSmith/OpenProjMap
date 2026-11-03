@@ -39,9 +39,27 @@ Located at `addons/openprojmap/nodes/mapped_surface.gd`.
   - `is_calibrating: bool`: Toggles calibration overlay and handle manipulation.
 - **Methods:**
   - `recalculate_matrices()`: Re-computes forward/inverse homographies and updates shader uniforms.
-  - `inject_normalized_point(uv: Vector2, is_pressed: bool)`: Injects an external normalized touch/laser position into the SubViewport.
+  - `inject_normalized_point(uv: Vector2, is_pressed: bool)`: Injects an external normalized touch/laser position into the SubViewport (touch index 0).
+  - `inject_touch_point(touch_id: int, uv: Vector2, is_pressed: bool)`: Injects multi-touch input events (`InputEventScreenTouch` and `InputEventMouseButton`).
   - `save_calibration()`: Persists handle positions to disk.
   - `load_calibration()`: Restores handle positions from disk.
+
+---
+
+### `GridMappedSurface` (`Control`)
+Located at `addons/openprojmap/nodes/grid_mapped_surface.gd`.
+
+Supports non-planar and curved surface mapping using an editable NxM control point grid with dynamic `ArrayMesh` reconstruction.
+
+- **Properties:**
+  - `grid_rows: int`: Number of vertical grid control points (default `4`).
+  - `grid_cols: int`: Number of horizontal grid control points (default `4`).
+  - `control_points: Array[Vector2]`: Editable grid handles in normalized UV space.
+  - `config_save_path: String`: Calibration JSON file path.
+- **Methods:**
+  - `rebuild_mesh()`: Reconstructs triangle geometry and UV coordinates for the `ArrayMesh`.
+  - `map_screen_uv_to_game_uv(uv: Vector2) -> Vector2`: Bilinear cell coordinate remapping for input inversion.
+  - `inject_touch_point(touch_id: int, uv: Vector2, is_pressed: bool)`: Injects multi-touch points into the mapped SubViewport.
 
 ---
 
