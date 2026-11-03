@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3 uid="uid://e4n8x1m7k2p9w"]
+
+[ext_resource type="Script" path="res://examples/03_multi_projector/multi_projector_controller.gd" id="1_ctrl"]
+[ext_resource type="Script" path="res://examples/03_multi_projector/spanned_canvas.gd" id="2_canvas"]
+[ext_resource type="Script" path="res://addons/openprojmap/nodes/mapped_surface.gd" id="3_surface"]
+[ext_resource type="PackedScene" path="res://addons/openprojmap/scenes/calibration_gizmo.tscn" id="4_gizmo"]
+
+[node name="MultiProjectorDemo" type="Control" node_paths=PackedStringArray("left_surface", "right_surface")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ctrl")
+left_surface = NodePath("DisplayOutputs/LeftProjectorSurface")
+right_surface = NodePath("DisplayOutputs/RightProjectorSurface")
+
+[node name="MasterViewportContainer" type="SubViewportContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 3840.0
+offset_bottom = 1080.0
+
+[node name="MasterViewport" type="SubViewport" parent="MasterViewportContainer"]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(3840, 1080)
+render_target_update_mode = 4
+
+[node name="SpannedCanvas" type="Node2D" parent="MasterViewportContainer/MasterViewport"]
+script = ExtResource("2_canvas")
+
+[node name="DisplayOutputs" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="LeftProjectorSurface" type="ColorRect" parent="DisplayOutputs" node_paths=PackedStringArray("target_viewport")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
+script = ExtResource("3_surface")
+target_viewport = NodePath("../../MasterViewportContainer/MasterViewport")
+config_save_path = "user://proj1_calibration.json"
+
+[node name="RightProjectorSurface" type="ColorRect" parent="DisplayOutputs" node_paths=PackedStringArray("target_viewport")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
+script = ExtResource("3_surface")
+target_viewport = NodePath("../../MasterViewportContainer/MasterViewport")
+config_save_path = "user://proj2_calibration.json"
+
+[node name="CalibrationGizmoLeft" parent="." node_paths=PackedStringArray("mapped_surface") instance=ExtResource("4_gizmo")]
+layout_mode = 1
+mapped_surface = NodePath("../DisplayOutputs/LeftProjectorSurface")
+
+[node name="CalibrationGizmoRight" parent="." node_paths=PackedStringArray("mapped_surface") instance=ExtResource("4_gizmo")]
+layout_mode = 1
+mapped_surface = NodePath("../DisplayOutputs/RightProjectorSurface")

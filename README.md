@@ -65,6 +65,7 @@ openprojmap/
 ├── addons/
 │   └── openprojmap/
 │       ├── plugin.cfg
+│       ├── openprojmap_plugin.gd       # Plugin registration
 │       ├── core/
 │       │   ├── homography.gd               # 3x3 Projective Math Engine
 │       │   ├── calibration_data.gd         # Resource schema for save/load
@@ -73,24 +74,33 @@ openprojmap/
 │       │   ├── projection_warp.gdshader    # Perspective fragment warper
 │       │   └── edge_blend.gdshader         # Multi-projector overlap feathering
 │       ├── nodes/
-│       │   ├── mapped_surface.gd           # CanvasItem host node
+│       │   ├── mapped_surface.gd           # Planar quad warper & input forwarder
+│       │   ├── grid_mapped_surface.gd      # NxM non-planar mesh grid warper
 │       │   ├── calibration_overlay.gd      # Corner-pin drag handles UI
-│       │   └── osc_input_receiver.gd       # UDP/OSC coordinate decoder
+│       │   └── osc_input_receiver.gd       # Multi-touch UDP/OSC coordinate decoder
 │       └── scenes/
 │           ├── calibration_gizmo.tscn      # Handle visualizer
 │           └── default_viewport_host.tscn  # Out-of-the-box game wrapper
 ├── tracking_bridge/
 │   ├── python/
 │   │   ├── requirements.txt
-│   │   ├── cv_touch_tracker.py         # OpenCV camera/IR laser blob tracker
+│   │   ├── cv_touch_tracker.py         # Multi-touch OpenCV tracker with ID assignment
 │   │   └── camera_calibration.py       # Camera homography aligner
-│   └── cpp/                            # Optional low-latency bridge
+│   └── cpp/                            # Low-latency C++ UDP transmitter & blob detector
+│       ├── CMakeLists.txt
+│       ├── tracker.hpp
+│       ├── main.cpp
+│       └── test_tracker.cpp
 ├── tests/
 │   ├── unit/
-│   │   ├── test_homography.gd          # GUT math unit tests
-│   │   └── test_calibration_store.gd  # Serialization tests
+│   │   ├── test_homography.gd          # Homography math unit tests
+│   │   ├── test_calibration_store.gd  # Serialization tests
+│   │   ├── test_mapped_surface.gd      # Planar surface logic tests
+│   │   ├── test_grid_mapped_surface.gd # Mesh grid surface tests
+│   │   └── test_tracking_bridge.py     # Python bridge pytest tests
 │   └── integration/
-│       └── test_input_injection.gd     # Viewport event delivery tests
+│       ├── test_input_injection.gd     # Viewport event delivery tests
+│       └── test_stress_4k.gd           # 4K performance stress benchmark
 ├── examples/
 │   ├── 01_simple_targets/              # Whack-a-mole demo
 │   ├── 02_physics_sandbox/             # RigidBody interaction demo

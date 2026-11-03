@@ -112,17 +112,29 @@ func _forward_interactive_input(event: InputEvent) -> void:
 		accept_event()
 
 func inject_normalized_point(uv: Vector2, is_pressed: bool) -> void:
+	inject_touch_point(0, uv, is_pressed)
+
+func inject_touch_point(touch_id: int, uv: Vector2, is_pressed: bool) -> void:
 	if not target_viewport or inv_h.is_empty():
 		return
 	var game_uv: Vector2 = HomographyClass.transform_point(inv_h, uv)
 	if Rect2(0, 0, 1, 1).has_point(game_uv):
 		var target_pos: Vector2 = game_uv * Vector2(target_viewport.size)
-		var ev := InputEventMouseButton.new()
-		ev.button_index = MOUSE_BUTTON_LEFT
-		ev.pressed = is_pressed
-		ev.position = target_pos
-		ev.global_position = target_pos
-		target_viewport.push_input(ev)
+		# Synthesize InputEventScreenTouch for multi-touch support
+		var touch_ev := InputEventScreenTouch.new()
+		touch_ev.index = touch_id
+		touch_ev.pressed = is_pressed
+		touch_ev.position = target_pos
+		target_viewport.push_input(touch_ev)
+
+		# For primary touch (index 0), also push mouse event for standard desktop click compatibility
+		if touch_id == 0:
+			var mouse_ev := InputEventMouseButton.new()
+			mouse_ev.button_index = MOUSE_BUTTON_LEFT
+			mouse_ev.pressed = is_pressed
+			mouse_ev.position = target_pos
+			mouse_ev.global_position = target_pos
+			target_viewport.push_input(mouse_ev)
 
 func save_calibration() -> void:
 	CalibrationStoreClass.save_calibration(config_save_path, handles)
