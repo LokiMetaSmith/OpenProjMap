@@ -515,35 +515,35 @@ cv2.destroyAllWindows()
 
 ### Phase 1: Core Engine & Math Verification
 
-* [ ] Implement `addons/openprojmap/core/homography.gd` with both unit-to-quad matrix derivation and analytical 3x3 Gaussian/adjoint inversion.
-* [ ] Add unit tests verifying identity transforms, known trapezoidal warps, and singular matrix handling under zero-determinant conditions.
-* [ ] Build `addons/openprojmap/shaders/projection_warp.gdshader` supporting dynamic `mat4` projection assignment without compilation stutter.
-* [ ] Verify fragment bounds clipping to ensure black border scan-out on fragments where $w \le 0$ or $(u, v) \notin [0, 1]$.
+* [x] Implement `addons/openprojmap/core/homography.gd` with both unit-to-quad matrix derivation and analytical 3x3 Gaussian/adjoint inversion.
+* [x] Add unit tests verifying identity transforms, known trapezoidal warps, and singular matrix handling under zero-determinant conditions.
+* [x] Build `addons/openprojmap/shaders/projection_warp.gdshader` supporting dynamic `mat4` projection assignment without compilation stutter.
+* [x] Verify fragment bounds clipping to ensure black border scan-out on fragments where $w \le 0$ or $(u, v) \notin [0, 1]$.
 
 ### Phase 2: Calibration Gizmo & Viewport Harness
 
-* [ ] Create `addons/openprojmap/nodes/mapped_surface.gd` connecting `SubViewport.get_texture()` to `ColorRect` via `ShaderMaterial`.
-* [ ] Add draggable calibration corner points with visual handle snapping and hotkey toggle (`Tab`).
-* [ ] Implement robust JSON serialization for handle positions to persist calibrations across sessions (`user://projection_calibration.json`).
-* [ ] Implement `_forward_interactive_input()` with boundary validation and dynamic event synthesis (`InputEventMouseButton`, `InputEventMouseMotion`).
+* [x] Create `addons/openprojmap/nodes/mapped_surface.gd` connecting `SubViewport.get_texture()` to `ColorRect` via `ShaderMaterial`.
+* [x] Add draggable calibration corner points with visual handle snapping and hotkey toggle (`Tab`).
+* [x] Implement robust JSON serialization for handle positions to persist calibrations across sessions (`user://projection_calibration.json`).
+* [x] Implement `_forward_interactive_input()` with boundary validation and dynamic event synthesis (`InputEventMouseButton`, `InputEventMouseMotion`).
 
 ### Phase 3: External Tracking Bridge
 
-* [ ] Implement `addons/openprojmap/nodes/osc_input_receiver.gd` using Godot's `UDPServer` for non-blocking network packet polling.
-* [ ] Develop `tracking_bridge/python/cv_touch_tracker.py` using OpenCV contour isolation with automatic camera FPS sync.
-* [ ] Add camera-to-projector calibration script computing a secondary homography between camera pixels and projector surface UVs.
+* [x] Implement `addons/openprojmap/nodes/osc_input_receiver.gd` using Godot's `UDPServer` for non-blocking network packet polling.
+* [x] Develop `tracking_bridge/python/cv_touch_tracker.py` using OpenCV contour isolation with automatic camera FPS sync.
+* [x] Add camera-to-projector calibration script computing a secondary homography between camera pixels and projector surface UVs.
 
 ### Phase 4: Quality Assurance & Testing Suite
 
-* [ ] **Unit Tests (GUT):** Write tests verifying homography numerical stability across extreme aspect ratios (16:9 to 4:3, extreme keystones).
-* [ ] **E2E Input Injection Tests:** Build an automated headless Godot test script that injects screen-space points and asserts that internal `Area2D` collision shapes detect clicks at identical game coordinates.
-* [ ] **Stress Test:** Benchmark rendering at 4K display scan-out to guarantee $60\text{ FPS}$ with zero memory leaks.
+* [x] **Unit Tests (GUT):** Write tests verifying homography numerical stability across extreme aspect ratios (16:9 to 4:3, extreme keystones).
+* [x] **E2E Input Injection Tests:** Build an automated headless Godot test script that injects screen-space points and asserts that internal `Area2D` collision shapes detect clicks at identical game coordinates.
+* [x] **Stress Test:** Benchmark rendering at 4K display scan-out to guarantee $60\text{ FPS}$ with zero memory leaks.
 
 ### Phase 5: Documentation & Hackathon Starter Kit
 
-* [ ] Write `HACKATHON_QUICKSTART.md` providing a 3-step setup guide (Drop scene $\to$ Build game in `SubViewport` $\to$ Hit `Tab` to map).
-* [ ] Build Example 01 (`01_simple_targets`): Interactive target-popping game with instant score counter.
-* [ ] Package the entire codebase as a drop-in Godot Engine Addon (`addons/openprojmap/`).
+* [x] Write `HACKATHON_QUICKSTART.md` providing a 3-step setup guide (Drop scene $\to$ Build game in `SubViewport` $\to$ Hit `Tab` to map).
+* [x] Build Example 01 (`01_simple_targets`): Interactive target-popping game with instant score counter.
+* [x] Package the entire codebase as a drop-in Godot Engine Addon (`addons/openprojmap/`).
 
 ---
 

@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3x7n5w8r1m4k"]
+
+[ext_resource type="PackedScene" path="res://addons/openprojmap/scenes/default_viewport_host.tscn" id="1_host"]
+[ext_resource type="PackedScene" path="res://examples/01_simple_targets/game_scene.tscn" id="2_game"]
+[ext_resource type="Script" path="res://addons/openprojmap/nodes/osc_input_receiver.gd" id="3_osc"]
+[ext_resource type="PackedScene" path="res://addons/openprojmap/scenes/calibration_gizmo.tscn" id="4_gizmo"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DefaultViewportHost" parent="." instance=ExtResource("1_host")]
+layout_mode = 1
+
+[node name="SimpleTargetsGame" parent="DefaultViewportHost/SubViewportContainer/GameViewport" index="0" instance=ExtResource("2_game")]
+
+[node name="OSCInputReceiver" type="Node" parent="." node_paths=PackedStringArray("surface")]
+script = ExtResource("3_osc")
+surface = NodePath("../DefaultViewportHost/MappedSurface")
+
+[node name="CalibrationGizmo" parent="." node_paths=PackedStringArray("mapped_surface") instance=ExtResource("4_gizmo")]
+layout_mode = 1
+mapped_surface = NodePath("../DefaultViewportHost/MappedSurface")
+
+[editable path="DefaultViewportHost"]

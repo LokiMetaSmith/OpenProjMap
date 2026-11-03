@@ -1,0 +1,15 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; but it can also be edited manually.
+
+config_version=5
+
+[application]
+
+config/name="OpenProjMap"
+config/description="Open-Source Interactive Projection Mapping Engine"
+config/features=PackedStringArray("4.3", "Forward Plus")
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/openprojmap/plugin.cfg")

@@ -1,0 +1,12 @@
+# Godot 4
+.godot/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# User data
+user://
+*.log
