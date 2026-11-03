@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://cf4vslp32k7ny"]
+
+[ext_resource type="Shader" path="res://addons/openprojmap/shaders/projection_warp.gdshader" id="1_warp"]
+[ext_resource type="Script" path="res://addons/openprojmap/nodes/mapped_surface.gd" id="2_surface"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_warp"]
+shader = ExtResource("1_warp")
+
+[node name="DefaultViewportHost" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="GameViewport" type="SubViewport" parent="SubViewportContainer"]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="MappedSurface" type="ColorRect" parent="." node_paths=PackedStringArray("target_viewport")]
+material = SubResource("ShaderMaterial_warp")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("2_surface")
+target_viewport = NodePath("../SubViewportContainer/GameViewport")
